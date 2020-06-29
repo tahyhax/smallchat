@@ -1,9 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const authMiddelware = require("../middelware/authMiddelware");
-
 const ChatsService = require("../services/chats");
 
+/**
+ * @route /api/chats/:id
+ * @description ...
+ * @private
+ */
 router.get("/:id", authMiddelware, async (req, res) => {
   try {
     const { id } = req.params;
@@ -13,6 +17,12 @@ router.get("/:id", authMiddelware, async (req, res) => {
     res.send(400).send(error);
   }
 });
+
+/**
+ * @route /api/chats/
+ * @description ...
+ * @private
+ */
 router.post("/", authMiddelware, async (req, res) => {
   try {
     const data = {
@@ -24,15 +34,12 @@ router.post("/", authMiddelware, async (req, res) => {
     res.send(400).send(error);
   }
 });
-// router.post("/", authMiddelware, async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const chat = await ChatsService.getChatById(id);
-//     res.status(200).send(chat);
-//   } catch (error) {
-//     res.send(400).send(error);
-//   }
-// });
+
+/**
+ * @route /api/chats/public
+ * @description ...
+ * @private
+ */
 router.get("/public", authMiddelware, async (req, res) => {
   try {
     const chats = await ChatsService.getChats(ChatsService.CHAT_TYPES.public);

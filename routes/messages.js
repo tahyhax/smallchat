@@ -3,17 +3,12 @@ const router = express.Router();
 const authMiddelware = require("../middelware/authMiddelware");
 
 const MessagesService = require("../services/messages");
-// const { route } = require("./chats");
 
-// router.post("/chat", async (req, res) => {
-//   try {
-//     const { chatId } = req.params;
-//     const messages = MessagesService.getMessagesByChat(chatId);
-//     res.status(200).send(messages);
-//   } catch (error) {
-//     res.status(400).send(error);
-//   }
-// });
+/**
+ * @route /api/messages/chat/:id
+ * @description ...
+ * @private
+ */
 router.get("/chat/:id", authMiddelware, async (req, res) => {
   try {
     const { id } = req.params;
@@ -23,6 +18,11 @@ router.get("/chat/:id", authMiddelware, async (req, res) => {
     res.status(400).send(error);
   }
 });
+/**
+ * @route /api/messages/chat/:id
+ * @description ...
+ * @private
+ */
 router.post("/chat/:id", authMiddelware, async (req, res) => {
   try {
     const { id: chatId } = req.params;

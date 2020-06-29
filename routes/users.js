@@ -4,9 +4,11 @@ const authMiddelware = require("../middelware/authMiddelware");
 
 const userService = require("../services/users");
 
-// router.get("/", authMiddelware, async (req, res) => {
-//   res.status(200).send(`Email: ${req.locals.email}`);
-// });
+/**
+ * @route /api/users/
+ * @description ...
+ * @private
+ */
 router.post("/", authMiddelware, async (req, res) => {
   try {
     const data = {
@@ -19,6 +21,12 @@ router.post("/", authMiddelware, async (req, res) => {
     res.status(400).send(error);
   }
 });
+
+/**
+ * @route /api/users/:email
+ * @description ...
+ * @private
+ */
 router.get("/:email", authMiddelware, async (req, res) => {
   try {
     const { email } = req.params;
