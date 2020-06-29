@@ -17,24 +17,21 @@ const MessagesService = require("../services/messages");
 router.get("/chat/:id", authMiddelware, async (req, res) => {
   try {
     const { id } = req.params;
-    const messages = MessagesService.getMessagesByChat(id);
-    req.status(200).send(messages);
+    const messages = await MessagesService.getMessagesByChat(id);
+    res.status(200).send(messages);
   } catch (error) {
     res.status(400).send(error);
   }
 });
 router.post("/chat/:id", authMiddelware, async (req, res) => {
   try {
-    console.log(req);
     const { id: chatId } = req.params;
     const data = {
-      // email: req.locals.email,
       chat: chatId,
       ...req.body,
     };
-    console.log(data);
-    const message = MessagesService.createMessage(data);
-    req.status(200).send(message);
+    const message = await MessagesService.createMessage(data);
+    res.status(200).send(message);
   } catch (error) {
     res.status(400).send(error);
   }

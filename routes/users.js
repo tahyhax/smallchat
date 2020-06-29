@@ -22,6 +22,7 @@ router.post("/", authMiddelware, async (req, res) => {
 router.get("/:email", authMiddelware, async (req, res) => {
   try {
     const { email } = req.params;
+    console.log(email);
     const user = await userService.getUserByEmail(email);
     res.status(200).send(user);
   } catch (error) {

@@ -24,7 +24,6 @@ router.post("/", authMiddelware, async (req, res) => {
     res.send(400).send(error);
   }
 });
-// {"_id":{"$oid":"5ef9e30b1dce6d2fba171818"},"users":[],"messages":[],"type":"public","name":"test12322","__v":{"$numberInt":"0"}}
 // router.post("/", authMiddelware, async (req, res) => {
 //   try {
 //     const { id } = req.params;

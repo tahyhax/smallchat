@@ -8,7 +8,7 @@ const MessageChema = mongoose.Schema({
   },
   user: {
     type: Schema.Types.ObjectId,
-    ref: "Usert",
+    ref: "User",
   },
   text: {
     type: String,
@@ -16,7 +16,7 @@ const MessageChema = mongoose.Schema({
   },
   time: {
     type: Number,
-    // required: true,
+    required: true,
   },
 });
 

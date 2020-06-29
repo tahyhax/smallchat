@@ -2,7 +2,7 @@ const Message = require("../models/Message");
 
 async function getMessagesByChat(id) {
   try {
-    const messages = await Message.findOne({ chat: id }).populate("user", [
+    const messages = await Message.find({ chat: id }).populate("user", [
       "firstName",
       "lastName",
     ]);
@@ -16,7 +16,7 @@ async function createMessage(data) {
   try {
     const newMessage = {
       ...data,
-      time: new Date.now(),
+      time: Date.now(),
     };
     const message = await Message.create(newMessage);
     return message;
