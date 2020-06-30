@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ChatSchema = new mongoose.Schema({
+const ChatSchema = mongoose.Schema({
   users: [
     {
       type: Schema.Types.ObjectId,
@@ -11,7 +11,7 @@ const ChatSchema = new mongoose.Schema({
   messages: [
     {
       type: Schema.Types.ObjectId,
-      ref: "message",
+      ref: "Message",
     },
   ],
   name: {

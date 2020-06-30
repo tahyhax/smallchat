@@ -36,11 +36,11 @@ router.post("/", authMiddelware, async (req, res) => {
 });
 
 /**
- * @route /api/chats/public
+ * @route /api/chats/  public|private | all
  * @description ...
  * @private
  */
-router.get("/public", authMiddelware, async (req, res) => {
+router.get("/", authMiddelware, async (req, res) => {
   try {
     const chats = await ChatsService.getChats(ChatsService.CHAT_TYPES.public);
     res.status(200).send(chats);

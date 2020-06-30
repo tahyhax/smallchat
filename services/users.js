@@ -1,4 +1,3 @@
-const user = require("../models/User");
 const User = require("../models/User");
 
 async function createUser(data) {
@@ -12,7 +11,8 @@ async function createUser(data) {
 }
 async function getUserByEmail(email) {
   try {
-    const user = User.findOne({ email });
+    // console.log("ee", email);
+    const user = await User.findOne({ email: email });
     return user;
   } catch (error) {
     return Promise.reject(error);

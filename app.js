@@ -30,6 +30,7 @@ const SocketEmitters = require("./socket/emitters");
 // init  app
 async function initApp() {
   try {
+    console.log("initApp");
     const globalChat = await ChatsService.isGlobalChatExist();
     if (globalChat) {
       return Promise.resolve();

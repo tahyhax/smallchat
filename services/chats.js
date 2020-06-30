@@ -24,7 +24,7 @@ async function createChat(data) {
 }
 async function getChatById(id) {
   try {
-    const chat = await Chat.findById(id);
+    const chat = await Chat.findById(id).populate("messages");
     return chat;
   } catch (error) {
     return Promise.reject(error);
