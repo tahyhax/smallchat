@@ -36,7 +36,7 @@ router.post("/", authMiddelware, async (req, res) => {
 });
 
 /**
- * @route /api/chats/  public|private | all
+ * @route /api/chats/  public | private | all
  * @description ...
  * @private
  */
