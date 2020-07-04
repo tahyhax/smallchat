@@ -24,7 +24,13 @@ async function createChat(data) {
 }
 async function getChatById(id) {
   try {
-    const chat = await Chat.findById(id).populate("messages");
+    const chat = await Chat.findById(id).populate({
+      path: "messages",
+      populate: {
+        path: "user",
+        model: "User",
+      },
+    });
     return chat;
   } catch (error) {
     return Promise.reject(error);
@@ -39,6 +45,7 @@ async function getChats(type) {
     return Promise.reject(error);
   }
 }
+
 module.exports = {
   CHAT_GLOBAL_NAME,
   CHAT_TYPES,
