@@ -18,12 +18,15 @@ const ROUTES = {
 
 // services
 const ChatsService = require("./services/chats");
+const UserService = require("./services/users");
+const MessagesService = require("./services/messages");
 
 // routes
 const UserController = require("./routes/users");
 const ChatController = require("./routes/chats");
 const MessagesController = require("./routes/messages");
 
+//Sockets
 const SocketListeners = require("./socket/listeners");
 const SocketEmitters = require("./socket/emitters");
 
@@ -64,19 +67,39 @@ app.use(ROUTES.messages, MessagesController);
 io.on("connection", (socket) => {
   console.log(`Socket is connected`);
   //*join chat
-  socket.on(SocketListeners.JOIN_CHAT, () => {
-    console.log(SocketListeners.JOIN_CHAT);
+  socket.on(SocketListeners.JOIN_CHAT, async ({ chatId, userId, userName }) => {
+    try {
+      await UserService.joinUserInChat({ chatId, userId });
+      // socket.join(chatId);
+      io.in(chatId).emit(SocketEmitters.NEW_USER_JOIN, { userName, userId });
+      console.log(SocketListeners.JOIN_CHAT);
+    } catch (error) {
+      console.log(error);
+    }
   });
   //*select chat
-  socket.on(SocketListeners.SELECT_CHAT, () => {
+  socket.on(SocketListeners.SELECT_CHAT, ({ chatId }) => {
+    socket.join(chatId);
     console.log(SocketListeners.SELECT_CHAT);
   });
   //* user Typing
-  socket.on(SocketListeners.USER_TYPING, () => {
+  socket.on(SocketListeners.USER_TYPING, ({ chatId }) => {
+    io.in(chatId).emit(SocketEmitters.USER_TYPING, { chatId });
     console.log(SocketListeners.USER_TYPING);
   });
   //* new message
-  socket.on(SocketListeners.NEW_MESSAGE, () => {
+  socket.on(SocketListeners.NEW_MESSAGE, async ({ chatId, userId, text }) => {
+    try {
+      const data = {
+        chat: chatId,
+        user: userId,
+        text,
+      };
+      const message = await MessagesService.createMessage(data);
+      io.in(chatId).emit(SocketEmitters.NEW_MESSAGE, message);
+    } catch (error) {
+      console.log(error);
+    }
     console.log(SocketListeners.NEW_MESSAGE);
   });
 });
