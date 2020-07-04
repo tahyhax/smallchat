@@ -11,7 +11,6 @@ async function createUser(data) {
 }
 async function getUserByEmail(email) {
   try {
-    // console.log("ee", email);
     const user = await User.findOne({ email: email });
     return user;
   } catch (error) {
@@ -20,7 +19,7 @@ async function getUserByEmail(email) {
 }
 async function joinUserInChat({ chatId, userId }) {
   try {
-    const user = User.updateOne(
+    const user = await User.updateOne(
       {
         _id: userId,
         chats: { $nin: chatId },
