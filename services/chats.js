@@ -31,6 +31,7 @@ async function getChatById(id) {
         model: "User",
       },
     });
+
     return chat;
   } catch (error) {
     return Promise.reject(error);
@@ -39,7 +40,11 @@ async function getChatById(id) {
 
 async function getChats(type) {
   try {
-    const chat = await Chat.find({ type: type });
+    const chat = await Chat.find({ type: type }).populate({
+      path: "lastMessage",
+      model: "Message",
+      select: "text time",
+    });
     return chat;
   } catch (error) {
     return Promise.reject(error);

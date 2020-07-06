@@ -65,13 +65,17 @@ app.use(ROUTES.chats, ChatController);
 app.use(ROUTES.messages, MessagesController);
 
 io.on("connection", (socket) => {
-  console.log(`Socket is connected`);
+  console.log(`Socket is connected1`, socket.id);
   //*join chat
   socket.on(SocketListeners.JOIN_CHAT, async ({ chatId, userId, userName }) => {
     try {
       await UserService.joinUserInChat({ chatId, userId });
       // socket.join(chatId);
       io.in(chatId).emit(SocketEmitters.NEW_USER_JOIN, { userName, userId });
+      // socket
+      //   .broadcast
+      //   .to(chatId)
+      //   .emit(SocketEmitters.NEW_USER_JOIN, { userName, userId });
       console.log(SocketListeners.JOIN_CHAT);
     } catch (error) {
       console.log(error);
@@ -80,13 +84,18 @@ io.on("connection", (socket) => {
   //*select chat
   socket.on(SocketListeners.SELECT_CHAT, ({ chatId }) => {
     socket.join(chatId);
-    console.log(SocketListeners.SELECT_CHAT);
+    console.log(socket);
   });
   //* user Typing
-  socket.on(SocketListeners.USER_TYPING, ({ chatId }) => {
-    io.in(chatId).emit(SocketEmitters.USER_TYPING, { chatId });
+  socket.on(SocketListeners.USER_TYPING, ({ chatId, userId }) => {
+    // io.in(chatId).emit(SocketEmitters.USER_TYPING, { chatId, userId });
+    socket.broadcast
+      .to(chatId)
+      .emit(SocketEmitters.USER_TYPING, { chatId, userId });
+
     console.log(SocketListeners.USER_TYPING);
   });
+
   //* new message
   socket.on(SocketListeners.NEW_MESSAGE, async ({ chatId, userId, text }) => {
     try {
@@ -97,6 +106,7 @@ io.on("connection", (socket) => {
       };
       const message = await MessagesService.createMessage(data);
       io.in(chatId).emit(SocketEmitters.NEW_MESSAGE, message);
+      // socket.broadcast.to(chatId).emit(SocketEmitters.NEW_MESSAGE, message);
     } catch (error) {
       console.log(error);
     }
