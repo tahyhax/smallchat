@@ -19,7 +19,7 @@ async function getUserByEmail(email) {
 }
 async function joinUserInChat({ chatId, userId }) {
   try {
-    const user = await User.updateOne(
+    const user = await User.findByIdAndUpdate(
       {
         _id: userId,
         chats: { $nin: chatId },
@@ -31,9 +31,26 @@ async function joinUserInChat({ chatId, userId }) {
     return Promise.reject(error);
   }
 }
+async function addUserNewMessage({ userId, chatId, messageId }) {
+  try {
+    const chatIdKey = `newMessages.${chatId}`;
+    const user = await User.findByIdAndUpdate(
+      {
+        _id: userId,
+      },
+      {
+        $push: { [chatIdKey]: messageId },
+      }
+    );
+    return user;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
 
 module.exports = {
   createUser,
   getUserByEmail,
   joinUserInChat,
+  addUserNewMessage,
 };

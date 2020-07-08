@@ -36,5 +36,22 @@ router.get("/:email", authMiddelware, async (req, res) => {
     res.status(400).send(error);
   }
 });
+/**
+ * @route /api/users/
+ * @description ...
+ * @private
+ */
+router.post("/add-new-messages", async (req, res) => {
+  try {
+    console.log(req.data);
+    const data = {
+      ...req.body,
+    };
+    const user = await userService.addUserNewMessage(data);
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 
 module.exports = router;
