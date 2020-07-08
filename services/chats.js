@@ -45,6 +45,7 @@ async function getChats(type) {
       model: "Message",
       select: "text time",
     });
+
     return chat;
   } catch (error) {
     return Promise.reject(error);

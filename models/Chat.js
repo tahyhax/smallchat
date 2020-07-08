@@ -25,9 +25,17 @@ const ChatSchema = mongoose.Schema({
   },
   lastMessage: {
     type: Schema.Types.ObjectId,
-    ref: "message",
+    ref: "Message",
   },
 });
+// ChatSchema.virtual("lastMessage", {
+//   ref: "Message",
+//   // localField: "_id",
+//   // foreignField: "blogPostId",
+//   // When populating comments, exclude comments that have `deleted`
+//   // set to `true`
+//   options: { match: { $$last: "$time"  } },
+// });
 
 mongoose.model("Chat", ChatSchema);
 module.exports = mongoose.model("Chat");

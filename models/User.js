@@ -25,6 +25,9 @@ const UserSchema = mongoose.Schema({
       ref: "Chat",
     },
   ],
+  newMessages: [],
 });
-mongoose.model("User", UserSchema);
-module.exports = mongoose.model("User");
+
+module.exports = mongoose.model("User", UserSchema);
+
+// module.exports = mongoose.model("User");

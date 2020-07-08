@@ -4,95 +4,551 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap"
       rel="stylesheet"
+      href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
     />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/css/main.css" />
-    <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml" />
 
-    <title>Meet</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>Chat</title>
   </head>
   <body>
-    <div class="app">
-      <header class="header">
-        <a href="" class="header__logo">
-          <figure class="header__figure">
-            <img src="/images/Icon.svg" alt="The beautiful MDN logo." />
-            <figcaption class="header__figcaption">Virtual Meet Web</figcaption>
-          </figure>
-        </a>
-        <div class="owner">
-          <span class="owner__name">Willard Raleigh</span>
-          <img
-            src="/images/owner-defailt-icon.png"
-            alt="Willard Raleigh"
-            class="owner__icon"
-          />
-        </div>
-      </header>
-      <main class="page">
-        <div class="meet-block">
-          <div class="_container">
-            <div class="meet-block__row">
-              <div class="meet-block__info">
-                <h2 class="meet-block__title">Meeting with Marlon</h2>
-                <span class="meet-block__description">Google Presentation</span>
-                <div class="meet-block__list meet-block-list">
-                  <dl class="meet-block-list__item">
-                    <dt class="meet-block-list__label"><span>Schaduled start:</span></dt>
-                    <dd class="meet-block-list__text">03.06.2020 17:00:00</dd>
-                  </dl>
-                  <dl class="meet-block-list__item">
-                    <dt class="meet-block-list__label"><span>Poll:</span></dt>
-                    <dd class="meet-block-list__text">Turned on</dd>
-                  </dl>
-                </div>
-                <p class="meet-block__notice">
-                  Invite participants by sharing the link below:
-                </p>
-                <div class="meet-block__copy-board copy-board">
-                  <i class="copy-board__before-icon material-icons">link</i>
-                  <input type="text"  class="copy-board__link" value="https://buderal.com/geekaasdfsadfasfasfasfafasfasf"
-                  readonly >
-                  <a href="#" class="copy-board__button"
-                    >Copy link
-  
-                    <i class="copy-board__after-icon"></i>
-                  </a>
-                </div>
-                <a href="" class="button button--block">Start conference</a>
+    <div id="app">
+      <div class="chat">
+        <div class="chat__inner">
+          <aside class="chat__aside aside">
+            <div class="aside__header">
+              <div class="aside__drawer chat-drawer">
+                <el-button
+                  class="chat-drawer__button"
+                  type="text"
+                  icon="el-icon-s-fold"
+                  @click="drawer = true"
+                >
+                </el-button>
+                <el-drawer
+                  title="I am the title"
+                  :visible.sync="drawer"
+                  :direction="direction"
+                  :before-close="handleClose"
+                >
+                  <span>Hi, there!</span>
+                </el-drawer>
               </div>
-              <div class="meet-block__preview">
-                <div class="video-block  ">
-                  <div  class="video-block__view camera camera--rounded">
-                    <div class="camera__video-stream video-stream"></div>
-                    <img class="camera__poster" src="./images/video-img.png" alt="video preview">
-                    <span class="camera__notice">
-                      Camera turned off
-                    </span> 
-                    <div class="camera__toasts toasts">
-                      <i class="material-icons material-icons-outlined">mic_none</i>
-                      <p>Microphone is turned off</p>
-                    </div>                
-
+              <div class="aside__search search">
+                <el-input
+                  class="search--input"
+                  placeholder="Search"
+                  size="medium"
+                  v-model="searchInput"
+                  clearable
+                >
+                </el-input>
+              </div>
+            </div>
+            <div class="aside__body">
+              <div class="chat-list">
+                <div class="chat-list__item chat-list-item">
+                  <div class="chat-list-item__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
                   </div>
-                  <div class="video-block__controls control-buttons">
-                    <a href="#" class="control-buttons__item control-button"><i class="material-icons">mic_none</i></a>
-                    <a href="#" class="control-buttons__item control-button"><i class="material-icons">videocam</i></a>
+                  <div class="chat-list-item__body">
+                    <div class="chat-list-item__info">
+                      <span class="chat-list-item__name title-name">
+                        public</span
+                      >
+                      <span class="chat-list-item__time message-date">
+                        2 days ago</span
+                      >
+                    </div>
+                    <div class="chat-list-item__about">
+                      <p
+                        class="chat-list-item__last-message message-text message-text--ellipsis"
+                      >
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Sapiente, obcaecati inventore, iste animi nihil
+                        praesentium quas libero, sequi natus ullam ex architecto
+                        quae eaque consequuntur dolorum ipsa nam quam itaque?
+                      </p>
+                      <el-badge
+                        :value="200"
+                        :max="999"
+                        type="info"
+                        class="chat-list-item__badge"
+                      >
+                      </el-badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat-list__item chat-list-item">
+                  <div class="chat-list-item__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="chat-list-item__body">
+                    <div class="chat-list-item__info">
+                      <span class="chat-list-item__name title-name">
+                        public</span
+                      >
+                      <span class="chat-list-item__time message-date">
+                        2 days ago</span
+                      >
+                    </div>
+                    <div class="chat-list-item__about">
+                      <p
+                        class="chat-list-item__last-message message-text message-text--ellipsis"
+                      >
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Sapiente, obcaecati inventore, iste animi nihil
+                        praesentium quas libero, sequi natus ullam ex architecto
+                        quae eaque consequuntur dolorum ipsa nam quam itaque?
+                      </p>
+                      <el-badge
+                        :value="200"
+                        :max="999"
+                        type="info"
+                        class="chat-list-item__badge"
+                      >
+                      </el-badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat-list__item chat-list-item">
+                  <div class="chat-list-item__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="chat-list-item__body">
+                    <div class="chat-list-item__info">
+                      <span class="chat-list-item__name title-name">
+                        public</span
+                      >
+                      <span class="chat-list-item__time message-date">
+                        2 days ago</span
+                      >
+                    </div>
+                    <div class="chat-list-item__about">
+                      <p
+                        class="chat-list-item__last-message message-text message-text--ellipsis"
+                      >
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Sapiente, obcaecati inventore, iste animi nihil
+                        praesentium quas libero, sequi natus ullam ex architecto
+                        quae eaque consequuntur dolorum ipsa nam quam itaque?
+                      </p>
+                      <el-badge
+                        :value="200"
+                        :max="999"
+                        type="info"
+                        class="chat-list-item__badge"
+                      >
+                      </el-badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat-list__item chat-list-item">
+                  <div class="chat-list-item__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="chat-list-item__body">
+                    <div class="chat-list-item__info">
+                      <span class="chat-list-item__name title-name">
+                        public</span
+                      >
+                      <span class="chat-list-item__time message-date">
+                        2 days ago</span
+                      >
+                    </div>
+                    <div class="chat-list-item__about">
+                      <p
+                        class="chat-list-item__last-message message-text message-text--ellipsis"
+                      >
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Sapiente, obcaecati inventore, iste animi nihil
+                        praesentium quas libero, sequi natus ullam ex architecto
+                        quae eaque consequuntur dolorum ipsa nam quam itaque?
+                      </p>
+                      <el-badge
+                        :value="200"
+                        :max="999"
+                        type="info"
+                        class="chat-list-item__badge"
+                      >
+                      </el-badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat-list__item chat-list-item">
+                  <div class="chat-list-item__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="chat-list-item__body">
+                    <div class="chat-list-item__info">
+                      <span class="chat-list-item__name title-name">
+                        public</span
+                      >
+                      <span class="chat-list-item__time message-date">
+                        2 days ago</span
+                      >
+                    </div>
+                    <div class="chat-list-item__about">
+                      <p
+                        class="chat-list-item__last-message message-text message-text--ellipsis"
+                      >
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Sapiente, obcaecati inventore, iste animi nihil
+                        praesentium quas libero, sequi natus ullam ex architecto
+                        quae eaque consequuntur dolorum ipsa nam quam itaque?
+                      </p>
+                      <el-badge
+                        :value="200"
+                        :max="999"
+                        type="info"
+                        class="chat-list-item__badge"
+                      >
+                      </el-badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat-list__item chat-list-item">
+                  <div class="chat-list-item__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="chat-list-item__body">
+                    <div class="chat-list-item__info">
+                      <span class="chat-list-item__name title-name">
+                        public</span
+                      >
+                      <span class="chat-list-item__time message-date">
+                        2 days ago</span
+                      >
+                    </div>
+                    <div class="chat-list-item__about">
+                      <p
+                        class="chat-list-item__last-message message-text message-text--ellipsis"
+                      >
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Sapiente, obcaecati inventore, iste animi nihil
+                        praesentium quas libero, sequi natus ullam ex architecto
+                        quae eaque consequuntur dolorum ipsa nam quam itaque?
+                      </p>
+                      <el-badge
+                        :value="200"
+                        :max="999"
+                        type="info"
+                        class="chat-list-item__badge"
+                      >
+                      </el-badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat-list__item chat-list-item">
+                  <div class="chat-list-item__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="chat-list-item__body">
+                    <div class="chat-list-item__info">
+                      <span class="chat-list-item__name title-name">
+                        public</span
+                      >
+                      <span class="chat-list-item__time message-date">
+                        2 days ago</span
+                      >
+                    </div>
+                    <div class="chat-list-item__about">
+                      <p
+                        class="chat-list-item__last-message message-text message-text--ellipsis"
+                      >
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Sapiente, obcaecati inventore, iste animi nihil
+                        praesentium quas libero, sequi natus ullam ex architecto
+                        quae eaque consequuntur dolorum ipsa nam quam itaque?
+                      </p>
+                      <el-badge
+                        :value="200"
+                        :max="999"
+                        type="info"
+                        class="chat-list-item__badge"
+                      >
+                      </el-badge>
+                    </div>
+                  </div>
+                </div>
+                <div class="chat-list__item chat-list-item">
+                  <div class="chat-list-item__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="chat-list-item__body">
+                    <div class="chat-list-item__info">
+                      <span class="chat-list-item__name title-name">
+                        public</span
+                      >
+                      <span class="chat-list-item__time message-date">
+                        2 days ago</span
+                      >
+                    </div>
+                    <div class="chat-list-item__about">
+                      <p
+                        class="chat-list-item__last-message message-text message-text--ellipsis"
+                      >
+                        Lorem ipsum, dolor sit amet consectetur adipisicing
+                        elit. Sapiente, obcaecati inventore, iste animi nihil
+                        praesentium quas libero, sequi natus ullam ex architecto
+                        quae eaque consequuntur dolorum ipsa nam quam itaque?
+                      </p>
+                      <el-badge
+                        :value="200"
+                        :max="999"
+                        type="info"
+                        class="chat-list-item__badge"
+                      >
+                      </el-badge>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+          </aside>
+          <main class="page">
+            <div class="page__header">
+              <div class="chat-info">
+                <span class="chat-info__name title-name">Public</span>
+                <p class="chat-info__description">4 members</p>
+              </div>
             </div>
+            <div class="page__body">
+              <div class="messages">
+                <div class="messages__item message">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+                <div class="messages__item message">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+                <div class="messages__item message">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+                <div class="messages__item message message--is-owner">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+                <div class="messages__item message">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+                <div class="messages__item message">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+                <div class="messages__item message">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+                <div class="messages__item message message--is-owner">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+                <div class="messages__item message message--is-owner">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+                <div class="messages__item message message--is-owner">
+                  <div class="message__avatar">
+                    <el-avatar
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                    ></el-avatar>
+                  </div>
+                  <div class="message__body">
+                    <span class="message__owner title-name">Denis</span>
+                    <p class="message__text message-text">
+                      Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                      Deleniti quasi minima in laboriosam. Facilis ut in nobis
+                      eos. Eveniet eius eligendi vitae sapiente ipsa consequatur
+                      adipisci laboriosam delectus non harum.
+                    </p>
+                    <span class="message__date message-date">20:55</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="page__footer">
+              <div class="chat-message-form">
+                <el-input
+                  class="chat-message-form__text"
+                  v-model="text"
+                  type="textarea"
+                  resize="none"
+                  placeholder="Write a message..."
+                ></el-input>
+                <el-button
+                  class="chat-message-form__button-send"
+                  type="default"
+                  icon="el-icon-s-promotion"
+                  circle
+                ></el-button>
+              </div>
+            </div>
+          </main>
         </div>
-        <div class="toasts">
-          <i class="material-icons material-icons-outlined">mic_none</i>
-          <p>Microphone is turned off</p>
-        </div> 
-      </main>
+      </div>
     </div>
   </body>
+  <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script>
+    new Vue({
+      el: "#app",
+      data: function () {
+        return {
+          visible: false,
+          searchInput: "",
+          drawer: false,
+          direction: "ltr",
+        };
+      },
+      methods: {
+        handleClose(done) {
+          this.$confirm("Are you sure you want to close this?")
+            .then((_) => {
+              done();
+            })
+            .catch((_) => {});
+        },
+      },
+    });
+  </script>
 </html>
