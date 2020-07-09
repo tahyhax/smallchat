@@ -1,6 +1,8 @@
 const Message = require("../models/Message");
 const Chat = require("../models/Chat");
 
+const mongoose = require("mongoose");
+
 async function getMessagesByChat(id) {
   try {
     const messages = await Message.find({ chat: id }).populate("user", [
@@ -51,7 +53,7 @@ async function addMessageToChat({ chatId, messageId }) {
     return Promise.reject(error);
   }
 }
-//TODO непонятно кудо писать етот метода в chat или здесь
+//TODO непонятно кудо писать етот метода в chat или здесь .. в чат
 async function setLastMessage({ chatId, messageId }) {
   try {
     await Chat.findByIdAndUpdate(chatId, { lastMessage: messageId });
@@ -61,7 +63,24 @@ async function setLastMessage({ chatId, messageId }) {
   }
 }
 
+async function getMessagesByPoolId(poolId) {
+  try {
+    // quick solution need  fix
+    const objectPoolId = poolId.map(function (id) {
+      return mongoose.Types.ObjectId(id);
+    });
+    const messages = await Message.find({
+      _id: { $in: objectPoolId },
+    }).populate("user", ["firstName", "lastName"]);
+    console.log(objectPoolId);
+    return messages;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 module.exports = {
   getMessagesByChat,
+  getMessagesByPoolId,
   createMessage,
 };

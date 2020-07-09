@@ -37,13 +37,12 @@ router.get("/:email", authMiddelware, async (req, res) => {
   }
 });
 /**
- * @route /api/users/
+ * @route /api/users/add-new-messages
  * @description ...
  * @private
  */
-router.post("/add-new-messages", async (req, res) => {
+router.post("/add-new-messages", authMiddelware, async (req, res) => {
   try {
-    console.log(req.data);
     const data = {
       ...req.body,
     };

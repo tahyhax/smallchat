@@ -20,6 +20,4 @@ const MessageChema = mongoose.Schema({
   },
 });
 
-mongoose.model("Message", MessageChema);
-
-module.exports = mongoose.model("Message");
+module.exports = mongoose.model("Message", MessageChema);

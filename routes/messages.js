@@ -3,6 +3,7 @@ const router = express.Router();
 const authMiddelware = require("../middelware/authMiddelware");
 
 const MessagesService = require("../services/messages");
+const { route } = require("./users");
 
 /**
  * @route /api/messages/chat/:id
@@ -32,6 +33,17 @@ router.post("/chat/:id", authMiddelware, async (req, res) => {
     };
     const message = await MessagesService.createMessage(data);
     res.status(200).send(message);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+router.post("/list", async (req, res) => {
+  try {
+    const { poolId } = req.body;
+    console.log("server111", req);
+    const messages = await MessagesService.getMessagesByPoolId(poolId);
+    res.status(200).send(messages);
   } catch (error) {
     res.status(400).send(error);
   }

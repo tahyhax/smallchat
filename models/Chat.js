@@ -37,5 +37,4 @@ const ChatSchema = mongoose.Schema({
 //   options: { match: { $$last: "$time"  } },
 // });
 
-mongoose.model("Chat", ChatSchema);
-module.exports = mongoose.model("Chat");
+module.exports = mongoose.model("Chat", ChatSchema);
