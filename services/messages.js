@@ -9,6 +9,7 @@ async function getMessagesByChat(id) {
       "firstName",
       "lastName",
     ]);
+
     return messages;
   } catch (error) {
     return Promise.reject(error);
@@ -17,11 +18,11 @@ async function getMessagesByChat(id) {
 
 async function createMessage(data) {
   try {
-    const newMessage = {
-      ...data,
-      time: Date.now(),
-    };
-    const message = await Message.create(newMessage);
+    // const newMessage = {
+    //   ...data,
+    //   time: Date.now(),
+    // };
+    const message = await Message.create(data);
 
     //todo сделать нормальным способом а  не кустарным
     const createdMessage = await Message.findById(message._id).populate(
@@ -31,8 +32,8 @@ async function createMessage(data) {
 
     const { chat: chatId, _id: messageId } = message;
     Promise.all([
-      await addMessageToChat({ chatId, messageId }),
-      await setLastMessage({ chatId, messageId }),
+      await asigneMessageToChat({ chatId, messageId }),
+      await setLastMessage({ chatId, messageId }), // todo  делать ето в контролере после того как зашло новое  сообщение
     ]);
     return createdMessage;
   } catch (error) {
@@ -40,9 +41,9 @@ async function createMessage(data) {
   }
 }
 
-async function addMessageToChat({ chatId, messageId }) {
+async function asigneMessageToChat({ chatId, messageId }) {
   try {
-    console.log("addMessageToChat", chatId);
+    console.log("asigneMessageToChat", chatId);
     await Chat.findByIdAndUpdate(
       chatId,
       { $push: { messages: messageId } },
