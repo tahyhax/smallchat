@@ -3,7 +3,7 @@ const router = express.Router();
 const authMiddelware = require("../middelware/authMiddelware");
 
 const MessagesService = require("../services/messages");
-const { route } = require("./users");
+// const { route } = require("./users");
 
 /**
  * @route /api/messages/chat/:id
