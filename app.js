@@ -63,6 +63,7 @@ app.use(express.json());
 app.use(ROUTES.users, UserController);
 app.use(ROUTES.chats, ChatController);
 app.use(ROUTES.messages, MessagesController);
+app.use("/api/contacts/", require("./routes/contacts"));
 
 io.on("connection", (socket) => {
   console.log(`Socket is connected1`, socket.id);
@@ -81,7 +82,7 @@ io.on("connection", (socket) => {
       console.log(error);
     }
   });
-  //*select chat
+  //*select chat непонятно зачем?
   socket.on(SocketListeners.SELECT_CHAT, ({ chatId }) => {
     socket.join(chatId);
     console.log(socket);
@@ -93,7 +94,7 @@ io.on("connection", (socket) => {
       .to(chatId)
       .emit(SocketEmitters.USER_TYPING, { chatId, userId });
 
-    console.log(SocketListeners.USER_TYPING);
+    console.log("userId", userId);
   });
 
   //* new message
@@ -106,6 +107,21 @@ io.on("connection", (socket) => {
       };
       const message = await MessagesService.createMessage(data);
       io.in(chatId).emit(SocketEmitters.NEW_MESSAGE, message);
+      // socket.broadcast.to(chatId).emit(SocketEmitters.NEW_MESSAGE, message);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(SocketListeners.NEW_MESSAGE);
+  });
+  socket.on(SocketListeners.NEW_CHAT, async (data) => {
+    try {
+      // const data = {
+      //   chat: chatId,
+      //   user: userId,
+      //   text,
+      // };
+      const chat = await ChatsService.createChat(data);
+      io.in(chatId).emit(SocketEmitters.NEW_CHAT, chat);
       // socket.broadcast.to(chatId).emit(SocketEmitters.NEW_MESSAGE, message);
     } catch (error) {
       console.log(error);
