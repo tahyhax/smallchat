@@ -11,7 +11,7 @@ async function createUser(data) {
 }
 async function getUserByEmail(email) {
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email }).populate("contacts");
     return user;
   } catch (error) {
     return Promise.reject(error);
