@@ -24,13 +24,24 @@ async function createChat(data) {
 }
 async function getChatById(id) {
   try {
-    const chat = await Chat.findById(id).populate({
-      path: "messages",
-      populate: {
-        path: "user",
-        model: "User",
+    // const perPage = 10;
+    const chat = await Chat.findById(id).populate([
+      {
+        path: "messages",
+        // match: { _id: { $nin: 21 } },
+        // options: { sort: { $natural: 1 }, limit: perPage },
+        populate: {
+          path: "user",
+          model: "User",
+          select: "firstName lastName",
+        },
       },
-    });
+      // {
+      //   path: "users",
+      //   select: "firstName lastName",
+      //   model: "User",
+      // },
+    ]);
 
     return chat;
   } catch (error) {
@@ -38,12 +49,12 @@ async function getChatById(id) {
   }
 }
 
-async function getChats(type) {
+async function getChats(type = "") {
   try {
-    const chat = await Chat.find({ type: type }).populate({
+    const chat = await Chat.find().populate({
       path: "lastMessage",
       model: "Message",
-      select: "text time",
+      select: "text updatedAt createdAt",
     });
 
     return chat;
