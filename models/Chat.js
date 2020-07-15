@@ -2,32 +2,35 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const ChatSchema = mongoose.Schema({
-  users: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "User",
+const ChatSchema = mongoose.Schema(
+  {
+    users: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    messages: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Message",
+      },
+    ],
+    name: {
+      type: String,
+      required: true,
     },
-  ],
-  messages: [
-    {
+    type: {
+      type: String,
+      default: "private",
+    },
+    lastMessage: {
       type: Schema.Types.ObjectId,
       ref: "Message",
     },
-  ],
-  name: {
-    type: String,
-    required: true,
   },
-  type: {
-    type: String,
-    default: "public",
-  },
-  lastMessage: {
-    type: Schema.Types.ObjectId,
-    ref: "Message",
-  },
-});
+  { timestamps: true }
+);
 // ChatSchema.virtual("lastMessage", {
 //   ref: "Message",
 //   // localField: "_id",
