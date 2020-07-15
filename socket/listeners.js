@@ -3,4 +3,5 @@ module.exports = {
   USER_TYPING: "user-typing",
   NEW_MESSAGE: "new-message",
   SELECT_CHAT: "select-chat",
+  NEW_CHAT: "new-chat",
 };
