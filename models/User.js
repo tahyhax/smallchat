@@ -10,14 +10,21 @@ const UserSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    picture: {
+      type: String,
+    },
     lastName: {
       type: String,
       required: true,
     },
-    country: {
+    username: {
+      type: String,
+      required: true,
+    },
+    phone: {
       type: String,
     },
-    city: {
+    description: {
       type: String,
     },
     chats: [
@@ -29,7 +36,7 @@ const UserSchema = mongoose.Schema(
     contacts: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Contact",
+        ref: "User",
       },
     ],
     newMessages: {
