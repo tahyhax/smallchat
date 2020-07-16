@@ -20,6 +20,10 @@ const ChatSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      // required: true,
+    },
     type: {
       type: String,
       default: "private",
