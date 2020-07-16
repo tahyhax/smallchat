@@ -24,7 +24,7 @@ async function createMessage(data) {
     // };
     const message = await Message.create(data);
 
-    //todo сделать нормальным способом а  не кустарным
+    //todo сделать нормальным способом а  не кустарным и перенести в  all
     const createdMessage = await Message.findById(message._id).populate(
       "user",
       ["firstName", "lastName"]
@@ -43,10 +43,10 @@ async function createMessage(data) {
 
 async function asigneMessageToChat({ chatId, messageId }) {
   try {
-    console.log("asigneMessageToChat", chatId);
+    // console.log("asigneMessageToChat", chatId);
     await Chat.findByIdAndUpdate(
       chatId,
-      { $push: { messages: messageId } },
+      { $addToSet: { messages: messageId } },
       { new: true, useFindAndModify: false }
     );
     return true;
