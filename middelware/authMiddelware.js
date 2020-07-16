@@ -6,7 +6,7 @@ async function authMiddelware(req, res, next) {
     const [, token] = authorization.split(" ");
 
     const decodedToken = await auth.verifyToken(token);
-    console.log(decodedToken);
+    // console.log(decodedToken);
     req.locals = { email: decodedToken.email };
     return next();
   } catch (error) {

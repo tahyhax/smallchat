@@ -41,7 +41,7 @@ router.post("/chat/:id", authMiddelware, async (req, res) => {
 router.post("/list", async (req, res) => {
   try {
     const { poolId } = req.body;
-    console.log("server111", req);
+    // console.log("server111", req);
     const messages = await MessagesService.getMessagesByPoolId(poolId);
     res.status(200).send(messages);
   } catch (error) {

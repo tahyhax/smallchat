@@ -33,7 +33,7 @@ const SocketEmitters = require("./socket/emitters");
 // init  app
 async function initApp() {
   try {
-    console.log("initApp");
+    // console.log("initApp");
     const globalChat = await ChatsService.isGlobalChatExist();
     if (globalChat) {
       return Promise.resolve();
@@ -63,10 +63,10 @@ app.use(express.json());
 app.use(ROUTES.users, UserController);
 app.use(ROUTES.chats, ChatController);
 app.use(ROUTES.messages, MessagesController);
-app.use("/api/contacts/", require("./routes/contacts"));
+// app.use("/api/contacts/", require("./routes/contacts"));
 
 io.on("connection", (socket) => {
-  console.log(`Socket is connected1`, socket.id);
+  // console.log(`Socket is connected1`, socket.id);
   //*join chat
   socket.on(SocketListeners.JOIN_CHAT, async ({ chatId, userId, userName }) => {
     try {
@@ -77,7 +77,7 @@ io.on("connection", (socket) => {
       //   .broadcast
       //   .to(chatId)
       //   .emit(SocketEmitters.NEW_USER_JOIN, { userName, userId });
-      console.log(SocketListeners.JOIN_CHAT);
+      // console.log(SocketListeners.JOIN_CHAT);
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +85,7 @@ io.on("connection", (socket) => {
   //*select chat непонятно зачем?
   socket.on(SocketListeners.SELECT_CHAT, ({ chatId }) => {
     socket.join(chatId);
-    console.log(socket);
+    // console.log(socket);
   });
   //* user Typing
   socket.on(SocketListeners.USER_TYPING, ({ chatId, userId }) => {
@@ -94,7 +94,7 @@ io.on("connection", (socket) => {
       .to(chatId)
       .emit(SocketEmitters.USER_TYPING, { chatId, userId });
 
-    console.log("userId", userId);
+    // console.log("userId", userId);
   });
 
   //* new message
@@ -115,18 +115,20 @@ io.on("connection", (socket) => {
   });
   socket.on(SocketListeners.NEW_CHAT, async (data) => {
     try {
+      console.log(data);
       // const data = {
       //   chat: chatId,
       //   user: userId,
       //   text,
       // };
+      // console.log('')
       const chat = await ChatsService.createChat(data);
-      io.in(chatId).emit(SocketEmitters.NEW_CHAT, chat);
+      // io.in(chatId).emit(SocketEmitters.NEW_CHAT, chat);
       // socket.broadcast.to(chatId).emit(SocketEmitters.NEW_MESSAGE, message);
     } catch (error) {
       console.log(error);
     }
-    console.log(SocketListeners.NEW_MESSAGE);
+    console.log(SocketListeners.NEW_CHAT);
   });
 });
 
