@@ -1,4 +1,6 @@
 const Chat = require("../models/Chat");
+const User = require("../models/User");
+
 const CHAT_GLOBAL_NAME = "Global";
 const CHAT_TYPES = {
   public: "public",
@@ -16,8 +18,24 @@ async function isGlobalChatExist() {
 
 async function createChat(data) {
   try {
+   // console.log("createChat", data);
     const chat = await Chat.create(data);
+    await asigneChatToUser(chat._id, data.users);
     return chat;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+async function asigneChatToUser(chatId, usersIds) {
+  try {
+    const uusers = await User.updateMany(
+      { _id: { $in: usersIds } },
+      { $addToSet: { chats: chatId } }
+    );
+    //console.log(chatId);
+    //console.log("uusers", uusers);
+    return true;
   } catch (error) {
     return Promise.reject(error);
   }
