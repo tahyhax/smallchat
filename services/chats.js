@@ -18,7 +18,7 @@ async function isGlobalChatExist() {
 
 async function createChat(data) {
   try {
-   // console.log("createChat", data);
+    // console.log("createChat", data);
     const chat = await Chat.create(data);
     await asigneChatToUser(chat._id, data.users);
     return chat;
@@ -29,12 +29,10 @@ async function createChat(data) {
 
 async function asigneChatToUser(chatId, usersIds) {
   try {
-    const uusers = await User.updateMany(
+    await User.updateMany(
       { _id: { $in: usersIds } },
       { $addToSet: { chats: chatId } }
     );
-    //console.log(chatId);
-    //console.log("uusers", uusers);
     return true;
   } catch (error) {
     return Promise.reject(error);
