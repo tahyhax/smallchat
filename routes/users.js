@@ -30,12 +30,33 @@ router.post("/", authMiddelware, async (req, res) => {
 router.get("/:email", authMiddelware, async (req, res) => {
   try {
     const { email } = req.params;
+
+    console.log(email);
     const user = await userService.getUserByEmail(email);
     res.status(200).send(user);
   } catch (error) {
     res.status(400).send(error);
   }
 });
+/**
+ * @route /api/users/:email
+ * @description ...
+ * @private
+ */
+router.get("/:userId/contacts", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log("userId", userId);
+
+    const user = await userService.getUserContacts(userId);
+    console.log("user", user);
+
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 /**
  * @route /api/users/add-new-messages
  * @description ...
