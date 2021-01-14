@@ -82,7 +82,7 @@ io.on("connection", (socket) => {
       console.log(error);
     }
   });
-  //*select chat непонятно зачем?
+  //*select chat непонятно зачем?  ето join chat
   socket.on(SocketListeners.SELECT_CHAT, ({ chatId }) => {
     socket.join(chatId);
     // console.log(socket);
@@ -115,15 +115,13 @@ io.on("connection", (socket) => {
   });
   socket.on(SocketListeners.NEW_CHAT, async (data) => {
     try {
-      console.log(data);
-      // const data = {
-      //   chat: chatId,
-      //   user: userId,
-      //   text,
-      // };
-      // console.log('')
+      console.log("io.sockets", data);
       const chat = await ChatsService.createChat(data);
-      // io.in(chatId).emit(SocketEmitters.NEW_CHAT, chat);
+      const { users, _id: chatId } = chat;
+      
+      socket.join(chatId);
+      //здесь надо  в цикле подписать всех  пользователей на  этот чат  и заэмитить  им что чат был создан
+      io.in(chatId).emit(SocketEmitters.NEW_CHAT, chat);
       // socket.broadcast.to(chatId).emit(SocketEmitters.NEW_MESSAGE, message);
     } catch (error) {
       console.log(error);

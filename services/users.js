@@ -45,7 +45,7 @@ async function joinUserInChat({ chatId, userId }) {
           _id: userId,
           chats: { $nin: chatId },
         },
-        { $push: { chats: chatId } }
+        { $addToSet: { chats: chatId } }
       ),
       await asigneUserToChat({ chatId, userId }),
     ]);
@@ -59,7 +59,7 @@ async function asigneUserToChat({ chatId, userId }) {
     console.log("asigneUserToChat", chatId);
     await Chat.findByIdAndUpdate(
       chatId,
-      { $set: { users: userId } },
+      { $addToSet: { users: userId } },
       { new: true, useFindAndModify: false }
     );
     return true;

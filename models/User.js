@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const differenceInMinutes = require("date-fns/differenceInMinutes");
+
 const UserSchema = mongoose.Schema(
   {
     email: {
@@ -42,9 +44,17 @@ const UserSchema = mongoose.Schema(
     newMessages: {
       type: Object,
     },
+    lastSeen: {
+      type: Date,
+      default: new Date(),
+    },
   },
   { timestamps: true }
 );
+
+UserSchema.virtual("isOnline").get(function () {
+  return differenceInMinutes(new Date().toISOString(), this.lastSeen) < 5;
+});
 
 module.exports = mongoose.model("User", UserSchema);
 
